@@ -1,18 +1,19 @@
-//import { domainToASCII } from "url";
 
 require("dotenv").config();
 var keys = require('./keys.js');
 var fs = require('fs');
 var request = require("request");
 var Spotify = require('node-spotify-api');
+var Twitter = require('twitter')
  var spotify = new Spotify(keys.spotify);
-// var client = new Twitter(keys.twitter);
+ var client = new Twitter(keys.twitter);
  var userInput = process.argv[2];
  var song = process.argv[3];
-var film = process.argv[3];
+ var film = process.argv[3];
+ 
  switch(userInput) {
      case 'my-tweets':
-        displayTweet();
+        Tweets();
         break;
      case 'spotify-this-song':
         spotifySong(song);
@@ -30,6 +31,7 @@ var film = process.argv[3];
 function spotifySong(song) {
     var static = 'The sign';
     var song= process.argv[3]
+  
     spotify.search({ type: 'track', query:song, limit:1 }, function (err,data) {
      
         console.log(data.tracks.items[0].name)        
@@ -62,6 +64,22 @@ request(omdb, function (error, response, body) {
 });
 }
 
-function tweets(tweet){
-    
+
+function Tweets() {
+    client.get('statuses/user_timeline', 'cherriocabnet',  function (error, tweets, response) {
+        if (!error) {
+
+            for (var i = 0; i < tweets.length; i++) {
+                console.log("==============================");
+                console.log("When? " + tweets[i].created_at);
+                console.log("TWEETS: " + i)
+                console.log(tweets[i].text);
+                console.log("==============================");
+            }
+        }
+
+
+    });
 }
+
+
