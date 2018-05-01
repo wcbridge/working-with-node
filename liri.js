@@ -28,15 +28,22 @@ var Twitter = require('twitter')
         console.log('Im sorry, I dont understand that command!');    
 }
 
-function spotifySong(song) {
-    var static = 'The sign';
-    var song= process.argv[3]
+
+function spotifySong() {
+    var song = process.argv[3]
+    if(song ==undefined){
+      
+        song= "The Sign ace of base" 
+    } 
+console.log(song)
+    // var static = 'The sign';
+     //var song= process.argv[3]
   
     spotify.search({ type: 'track', query:song, limit:1 }, function (err,data) {
      
-        console.log(data.tracks.items[0].name)        
-        console.log(data.tracks.items[0].artists[0].external_urls)
-        console.log(data.tracks.items[0].artists[0].name)
+        console.log('Song '+data.tracks.items[0].name)        
+        console.log('Spotify link '+data.tracks.items[0].artists[0].external_urls)
+        console.log('Band/Artist '+data.tracks.items[0].artists[0].name)
 
         
     }) 
@@ -69,10 +76,10 @@ function Tweets() {
     client.get('statuses/user_timeline', 'cherriocabnet',  function (error, tweets, response) {
         if (!error) {
 
-            for (var i = 0; i < tweets.length; i++) {
+            for (var i = 1; i < 11; i++) {
                 console.log("==============================");
-                console.log("When? " + tweets[i].created_at);
-                console.log("TWEETS: " + i)
+                console.log("Time: " + tweets[i].created_at);
+                console.log("TWEET: " + i)
                 console.log(tweets[i].text);
                 console.log("==============================");
             }
