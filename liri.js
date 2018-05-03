@@ -22,7 +22,7 @@ var Twitter = require('twitter')
         movie(film);
         break;
     case 'do-what-it-says':
-        doIt()
+        rando()
         break;
     default:
         console.log('Im sorry, I dont understand that command!');    
@@ -35,16 +35,12 @@ function spotifySong() {
       
         song= "The Sign ace of base" 
     } 
-console.log(song)
-    // var static = 'The sign';
-     //var song= process.argv[3]
-  
-    spotify.search({ type: 'track', query:song, limit:1 }, function (err,data) {
-     
-        console.log('Song '+data.tracks.items[0].name)        
-        console.log('Spotify link '+data.tracks.items[0].artists[0].external_urls)
-        console.log('Band/Artist '+data.tracks.items[0].artists[0].name)
 
+    spotify.search({ type: 'track', query:song, limit:1 }, function (err,data) {
+        console.log('Song: '+data.tracks.items[0].name)        
+        console.log('Spotify link: '+data.tracks.items[0].artists[0].external_urls.spotify)
+        console.log('Band/Artist: '+data.tracks.items[0].artists[0].name)
+        console.log('Album : ' +data.tracks.items[0].album.name)
         
     }) 
 }
@@ -89,4 +85,24 @@ function Tweets() {
     });
 }
 
+//random
 
+function rando() {
+
+    fs.readFile("random.txt", "utf8", function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+        data = data.split(", ");
+
+        song =data[1]
+        spotify.search({ type: 'track', query: song, limit: 1 }, function (err, data) {
+
+            console.log('Song: ' + data.tracks.items[0].name)
+            console.log('Spotify link: ' + data.tracks.items[0].artists[0].external_urls.spotify)
+            console.log('Band/Artist: ' + data.tracks.items[0].artists[0].name)
+            console.log('Album : ' + data.tracks.items[0].album.name)
+
+        }) 
+    })
+}
